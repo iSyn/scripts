@@ -1,0 +1,83 @@
+#!/bin/sh
+
+# Config Stuff
+PATH_TO_PEM_KEYS="~/.ssh"
+
+function help() {
+    echo "";
+    echo "sshto - A simple script that allows you to ssh into specific servers easily";
+    echo "";
+    echo "sshto -l|list              - Lists all possible servers to SSH into";
+    echo "sshto -c|connect [server]  - Connects to specified server";
+    echo "sshto -h|help              - Shows all commands for sshto";
+    echo "";
+}
+
+function connect() {
+
+    case "$1" in
+        www)
+            echo "Connecting to www.medly.link...";
+            ssh -i "$PATH_TO_PEM_KEYS/ec2-ohio-dev.pem" ubuntu@ec2-18-217-67-160.us-east-2.compute.amazonaws.com; 
+            ;;
+        api)
+            echo "Connecting to api.medly.link...";
+            ssh -i "$PATH_TO_PEM_KEYS/ec2-ohio-dev.pem" ubuntu@ec2-3-19-211-135.us-east-2.compute.amazonaws.com;
+           ;;
+        code)
+            echo "Connecting to code.medly.link...";
+            ssh -i "$PATH_TO_PEM_KEYS/ec2-ohio-prod.pem" ubuntu@ec2-18-217-245-27.us-east-2.compute.amazonaws.com;
+           ;;
+        tech)
+            echo "Connecting to tech.medly.link...";
+            ssh -i "$PATH_TO_PEM_KEYS/ec2-ohio-dev.pem" ubuntu@ec2-18-217-115-219.us-east-2.compute.amazonaws.com;
+            ;;
+        onfleet_webhooks)
+            echo "Connecting to onfleet webhooks";
+            ssh -i "$PATH_TO_PEM_KEYS/ec2-ohio-dev.pem" ubuntu@ec2-3-14-250-115.us-east-2.compute.amazonaws.com;
+            ;;
+        *)
+            echo "Did not find a server for: $1";
+            ;;
+    esac
+}
+
+function list() {
+    echo "";
+    echo "Available servers:";
+    echo "";
+    echo "www - Connects to www.medly.link";
+    echo "api - Connects to api.medly.link";
+    echo "code - Connects to code.medly.link";
+    echo "tech - Connects to tech.medly.link";
+    echo "onfleet_webhooks - Connects to onfleet webhooks"
+    echo "";
+}
+
+function error() {
+    echo "";
+    echo "Usage: sshto <command>"
+    echo "";
+    echo "where <command> is either";
+    echo "  -l, list";
+    echo "  -h, help";
+    echo "  -c <name>, connect <name>";
+    echo "";
+}
+
+case "$1" in
+    -c | connect)
+        connect $2
+        ;;
+    -l | list)
+        list; 
+        ;;
+    -h | help)
+        help;
+        ;;
+    *)
+        error;
+        ;;
+esac
+
+
