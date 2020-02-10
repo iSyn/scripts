@@ -3,6 +3,8 @@
 
 This is a simple script that allows you to easily SSH into pre-specified instances.
 
+Example: `sshto -c www` will connect you to www.medly.link
+
 ## How to use
 1. Download or copy/paste the `sshto` file and add into one of your $PATH locations.
 	
